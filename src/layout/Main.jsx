@@ -21,6 +21,8 @@ function Main(props) {
         "<br>Longitude: " +
         position.coords.longitude
     );
+
+    window.localStorage.getItem("token");
   }
 
   return (

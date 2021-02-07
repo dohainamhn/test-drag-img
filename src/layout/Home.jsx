@@ -1,24 +1,27 @@
 import { get } from "http";
-import React from "react";
+import React, { useRef } from "react";
 import { GoogleLogin, useGoogleLogin } from "react-google-login";
 import axiosClient from "../apis/axiosClient";
 
 const clientId =
   "554778092924-pdk065lnmfrp33vbv5mukdkike39ptup.apps.googleusercontent.com";
+const add = (data) => {
+  const url = "/auth/signin";
+  return axiosClient.post(url, data);
+};
 
 function Home(props) {
+  let tokenRef = useRef("");
   const onSuccess = (res) => {
     // console.log("[Login Success] current user: ", res.profileObj);
     // console.log(window.localStorage.getItem("token"));
-    const add = (data) => {
-      const url = "/auth/signin";
-      return axiosClient.post(url, data);
-    };
 
     add({ tokenId: res.tokenId }).then((res) => {
-      window.localStorage.setItem("token", res.token);
+      // window.localStorage.setItem("token", res.token);
+      // window.localStorage.setItem("data", res);
+      // tokenRef.current = res.token;
     });
-
+    window.localStorage.setItem("token", tokenRef.current);
     props.history.push("/main");
   };
 
