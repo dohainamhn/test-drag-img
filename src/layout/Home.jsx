@@ -1,7 +1,42 @@
 import React from "react";
+import { GoogleLogin, useGoogleLogin } from "react-google-login";
+import axiosClient from "../apis/axiosClient";
+
+const clientId =
+  "554778092924-pdk065lnmfrp33vbv5mukdkike39ptup.apps.googleusercontent.com";
 
 function Home(props) {
-  return <div>Home</div>;
+  const onSuccess = (res) => {
+    console.log("[Login Success] current user: ", res.profileObj);
+    localStorage.setItem("token", res.tokenId);
+    const add = (data) => {
+      const url = "/auth/signin";
+      return axiosClient.post(url, data);
+    };
+
+    add(res.tokenId);
+    props.history.push("/main");
+  };
+
+  const onFail = (res) => {
+    console.log("[Login Failed] res: ", res);
+  };
+
+  const { signIn } = useGoogleLogin({
+    onSuccess,
+    onFail,
+    clientId,
+    isSignedIn: true,
+    accessType: "offline",
+  });
+
+  return (
+    <div>
+      <button onClick={signIn} className="button">
+        <span className="buttonText">Sign In with Google</span>
+      </button>
+    </div>
+  );
 }
 
 export default Home;

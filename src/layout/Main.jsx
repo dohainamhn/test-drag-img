@@ -7,6 +7,21 @@ import Layout from "../HOC/Layout";
 Main.propTypes = {};
 
 function Main(props) {
+  function getLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    }
+  }
+
+  function showPosition(position) {
+    console.log(
+      "Latitude: " +
+        position.coords.latitude +
+        "<br>Longitude: " +
+        position.coords.longitude
+    );
+  }
+
   return (
     <div>
       {/* <NavbarDesktop />

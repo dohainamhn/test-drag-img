@@ -2,7 +2,7 @@ import axios from "axios";
 import queryString from "query-string";
 
 const axiosClient = axios.create({
-  baseURL: "http://test.com",
+  baseURL: "https://teender-heroku-dev.herokuapp.com/api",
   headers: {
     "Content-Type": "application/json",
   },

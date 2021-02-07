@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { Suspense } from "react";
 import PrivateRoute from "./HOC/PrivateRouter";
 
-// const PrivateRoute = lazy(() => import("./HOC/PrivateRouter"));
 function App() {
   return (
     <Router>
