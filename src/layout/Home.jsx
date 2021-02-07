@@ -17,11 +17,7 @@ function Home(props) {
       return axiosClient.post(url, data);
     };
 
-    add({ tokenId: res.tokenId })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
+    add({ tokenId: res.tokenId }).then((res) => console.log(res));
 
     props.history.push("/main");
   };
