@@ -9,15 +9,15 @@ const clientId =
 function Home(props) {
   const onSuccess = (res) => {
     // console.log("[Login Success] current user: ", res.profileObj);
-    window.localStorage.setItem("token", res.tokenId);
-
     // console.log(window.localStorage.getItem("token"));
     const add = (data) => {
       const url = "/auth/signin";
       return axiosClient.post(url, data);
     };
 
-    add({ tokenId: res.tokenId }).then((res) => console.log(res));
+    add({ tokenId: res.tokenId }).then((res) => {
+      window.localStorage.setItem("token", res.token);
+    });
 
     props.history.push("/main");
   };
