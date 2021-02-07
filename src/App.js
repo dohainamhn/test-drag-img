@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import routes from "./rootRoute";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Suspense } from "react";
+import PrivateRoute from "./HOC/PrivateRouter";
 
+// const PrivateRoute = lazy(() => import("./HOC/PrivateRouter"));
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Suspense fallback={<div>loading ....</div>}>
+        <Switch>
+          {routes.map((route, index) => {
+            if (route.public)
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  exact={route.exact}
+                  component={route.component}
+                />
+              );
+            return <PrivateRoute {...route} key={index} />;
+          })}
+        </Switch>
+      </Suspense>
+    </Router>
   );
 }
 
