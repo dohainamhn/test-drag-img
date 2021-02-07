@@ -1,8 +1,5 @@
 import React from "react";
-import PropTypes from "prop-types";
 import CardSwipe from "../../Components/CardSwipe/CardSwipe";
-
-CandidateList.propTypes = {};
 
 function CandidateList(props) {
   return (
