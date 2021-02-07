@@ -1,6 +1,7 @@
 import { get } from "http";
 import React, { useRef } from "react";
 import { GoogleLogin, useGoogleLogin } from "react-google-login";
+import { useHistory } from "react-router";
 import axiosClient from "../apis/axiosClient";
 
 const clientId =
@@ -11,18 +12,28 @@ const add = (data) => {
 };
 
 function Home(props) {
-  let tokenRef = useRef("");
+  const history = useHistory();
+  let tokenRef = useRef(null);
+
   const onSuccess = (res) => {
-    // console.log("[Login Success] current user: ", res.profileObj);
-    // console.log(window.localStorage.getItem("token"));
+    console.log("loop");
+    console.log("[Login Success] current user: ", res.profileObj);
+    console.log(window.localStorage.getItem("token"));
 
     add({ tokenId: res.tokenId }).then((res) => {
-      // window.localStorage.setItem("token", res.token);
-      // window.localStorage.setItem("data", res);
-      // tokenRef.current = res.token;
+      console.log("ress");
+      console.log(res);
+      window.localStorage.setItem("token", res.token);
+      window.localStorage.setItem("data", res.user._id);
+      window.localStorage.setItem("status", res.user.status);
+
+      tokenRef.current = res.token;
     });
+
     window.localStorage.setItem("token", tokenRef.current);
-    props.history.push("/main");
+    if (window.localStorage.getItem("token")) {
+      history.push("/main");
+    }
   };
 
   const onFail = (res) => {
