@@ -8,16 +8,21 @@ const clientId =
 
 function Home(props) {
   const onSuccess = (res) => {
-    console.log("[Login Success] current user: ", res.profileObj);
+    // console.log("[Login Success] current user: ", res.profileObj);
     window.localStorage.setItem("token", res.tokenId);
 
-    console.log(window.localStorage.getItem("token"));
+    // console.log(window.localStorage.getItem("token"));
     const add = (data) => {
       const url = "/auth/signin";
       return axiosClient.post(url, data);
     };
 
-    add({ tokenId: res.tokenId });
+    add({ tokenId: res.tokenId })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+
     props.history.push("/main");
   };
 
