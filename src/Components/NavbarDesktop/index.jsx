@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
-import PropTypes from "prop-types";
 
 import "./navbar-desktop.scss";
 import { useHistory } from "react-router-dom";
-
-NavbarDesktop.propTypes = {};
 
 function NavbarDesktop(props) {
   const [showBack, setShowBack] = useState(false);
