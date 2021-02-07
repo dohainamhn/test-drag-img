@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavbarDesktop from "../Components/NavbarDesktop";
 import NavMenu from "../features/NavMenu";
 import CandidateList from "../features/CandidateList";
@@ -21,7 +21,10 @@ function Main(props) {
       navigator.geolocation.getCurrentPosition(showPosition);
     }
   }
-  getLocation();
+  useEffect(() => {
+    getLocation();
+  }, []);
+
   function showPosition(position) {
     console.log(
       "Latitude: " +

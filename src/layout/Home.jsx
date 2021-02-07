@@ -11,6 +11,11 @@ const add = (data) => {
   return axiosClient.post(url, data);
 };
 
+const createSetting = (id) => {
+  const url = "/setting/addsetting";
+  return axiosClient.post(url, id);
+};
+
 function Home(props) {
   const history = useHistory();
   let tokenRef = useRef(null);
@@ -23,6 +28,9 @@ function Home(props) {
     add({ tokenId: res.tokenId }).then((res) => {
       console.log("ress");
       console.log(res);
+      createSetting({
+        userId: res.user._id,
+      }).then((data) => console.log("setting", data));
       window.localStorage.setItem("token", res.token);
       window.localStorage.setItem("data", res.user._id);
       window.localStorage.setItem("status", res.user.status);

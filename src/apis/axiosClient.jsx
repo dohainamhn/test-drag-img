@@ -5,6 +5,7 @@ const axiosClient = axios.create({
   baseURL: "https://teender-heroku-dev.herokuapp.com/api",
   headers: {
     "Content-Type": "application/json",
+    Authorization: `bear ${localStorage.getItem("token")}`,
   },
   paramsSerializer: (params) => {
     return queryString.stringify(params);
