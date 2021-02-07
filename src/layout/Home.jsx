@@ -1,3 +1,4 @@
+import { get } from "http";
 import React from "react";
 import { GoogleLogin, useGoogleLogin } from "react-google-login";
 import axiosClient from "../apis/axiosClient";
@@ -8,7 +9,9 @@ const clientId =
 function Home(props) {
   const onSuccess = (res) => {
     console.log("[Login Success] current user: ", res.profileObj);
-    localStorage.setItem("token", res.tokenId);
+    window.localStorage.setItem("token", res.tokenId);
+
+    console.log(window.localStorage.getItem("token"));
     const add = (data) => {
       const url = "/auth/signin";
       return axiosClient.post(url, data);
