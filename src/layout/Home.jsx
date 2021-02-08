@@ -1,8 +1,10 @@
-import { get } from "http";
 import React, { useRef } from "react";
-import { GoogleLogin, useGoogleLogin } from "react-google-login";
+import { useGoogleLogin } from "react-google-login";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
+import action from "../actions";
 import axiosClient from "../apis/axiosClient";
+import constantAction from "../constansts";
 
 const clientId =
   "554778092924-pdk065lnmfrp33vbv5mukdkike39ptup.apps.googleusercontent.com";
@@ -18,30 +20,25 @@ const createSetting = (id) => {
 
 function Home(props) {
   const history = useHistory();
-  let tokenRef = useRef(null);
+  const dispatch = useDispatch();
 
   const onSuccess = (res) => {
-    console.log("loop");
-    console.log("[Login Success] current user: ", res.profileObj);
-    console.log(window.localStorage.getItem("token"));
-
     add({ tokenId: res.tokenId }).then((res) => {
-      console.log("ress");
-      console.log(res);
       createSetting({
         userId: res.user._id,
       }).then((data) => console.log("setting", data));
-      window.localStorage.setItem("token", res.token);
-      window.localStorage.setItem("data", res.user._id);
-      window.localStorage.setItem("status", res.user.status);
+      localStorage.setItem("token", res.token);
 
-      tokenRef.current = res.token;
+      localStorage.setItem("user", JSON.stringify(res.user));
+
+      dispatch(action(constantAction.ADD_USER, res.user));
+      if (
+        localStorage.getItem("token") &&
+        localStorage.getItem("token") !== null
+      ) {
+        history.push("/main");
+      }
     });
-
-    window.localStorage.setItem("token", tokenRef.current);
-    if (window.localStorage.getItem("token")) {
-      history.push("/main");
-    }
   };
 
   const onFail = (res) => {

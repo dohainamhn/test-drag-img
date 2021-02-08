@@ -2,14 +2,19 @@ import axios from "axios";
 import queryString from "query-string";
 
 const axiosClient = axios.create({
-  baseURL: "https://teender-heroku-dev.herokuapp.com/api",
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     "Content-Type": "application/json",
-    Authorization: `bear ${localStorage.getItem("token")}`,
   },
   paramsSerializer: (params) => {
     return queryString.stringify(params);
   },
+});
+
+axiosClient.interceptors.request.use(function (req) {
+  const token = localStorage.getItem("token");
+  req.headers.Authorization = token ? `Bearer ${token}` : "";
+  return req;
 });
 
 axiosClient.interceptors.response.use(

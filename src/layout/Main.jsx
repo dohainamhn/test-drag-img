@@ -4,18 +4,19 @@ import NavMenu from "../features/NavMenu";
 import CandidateList from "../features/CandidateList";
 import Layout from "../HOC/Layout";
 import axiosClient from "../apis/axiosClient";
-// import { get } from "http";
+import { useDispatch, useSelector } from "react-redux";
+import action from "../actions";
+import constantAction from "../constansts";
 
 Main.propTypes = {};
-console.log(window.localStorage.getItem("data"));
-console.log(window.localStorage.getItem("status"));
 
 const addLocation = (data) => {
   const url = "/location";
-  return axiosClient.post(url, data);
+  return axiosClient.put(url, data);
 };
 
 function Main(props) {
+  const data = useSelector((state) => state.user.currentUser);
   function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
@@ -24,7 +25,6 @@ function Main(props) {
   useEffect(() => {
     getLocation();
   }, []);
-
   function showPosition(position) {
     console.log(
       "Latitude: " +
@@ -33,13 +33,13 @@ function Main(props) {
         position.coords.longitude
     );
 
-    addLocation({
-      userId: window.localStorage.getItem("data"),
-      latitude: position.coords.latitude,
-      longitude: position.coords.longitude,
-    }).then((res) => console.log(res));
-
-    window.localStorage.getItem("token");
+    if (data) {
+      addLocation({
+        userId: data._id,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      }).then((res) => console.log(res, "location"));
+    }
   }
 
   return (
