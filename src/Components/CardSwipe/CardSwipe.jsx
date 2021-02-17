@@ -1,6 +1,5 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useRef, useEffect } from "react";
 // import TinderCard from '../react-tinder-card/index'
-import TinderCard from "react-tinder-card";
 import "./card-swipe.scss";
 
 const db = [
@@ -26,83 +25,100 @@ const db = [
   },
 ];
 
-const alreadyRemoved = [];
-let charactersState = db; // This fixes issues with updating characters state forcing it to use the current state and not the state that was active when the card was created.
+let lengthData = db.length - 1;
 
 function CardSwipe() {
-  const [characters, setCharacters] = useState(db);
-  const [lastDirection, setLastDirection] = useState();
+  const boxSliderRef = useRef(null);
+  const slidesRef = useRef(null);
+  const [widthBoxSlider, setWidthBoxSlider] = useState("");
+  const dotsRef = useRef([]);
 
-  const childRefs = useMemo(
-    () =>
-      Array(db.length)
-        .fill(0)
-        .map((i) => React.createRef()),
-    []
-  );
+  let index = 0;
+  dotsRef.current = new Array(lengthData);
 
-  const swiped = (direction, nameToDelete) => {
-    console.log("removing: " + nameToDelete);
-    setLastDirection(direction);
-    alreadyRemoved.push(nameToDelete);
-  };
+  useEffect(() => {
+    setWidthBoxSlider(boxSliderRef.current.clientWidth);
+  }, []);
 
-  const outOfFrame = (name) => {
-    console.log(name + " left the screen!");
-    charactersState = charactersState.filter(
-      (character) => character.name !== name
-    );
-    setCharacters(charactersState);
-  };
-
-  const swipe = (dir) => {
-    const cardsLeft = characters.filter(
-      (person) => !alreadyRemoved.includes(person.name)
-    );
-    if (cardsLeft.length) {
-      const toBeRemoved = cardsLeft[cardsLeft.length - 1].name; // Find the card object to be removed
-      const index = db.map((person) => person.name).indexOf(toBeRemoved); // Find the index of which to make the reference to
-      alreadyRemoved.push(toBeRemoved); // Make sure the next card gets removed next time if this card do not have time to exit the screen
-      childRefs[index].current.swipe(dir); // Swipe the card!
+  const test = (index) => {
+    dotsRef.current.forEach((e, i) => {
+      e.classList.remove("background");
+    });
+    if (dotsRef.current[index]) {
+      dotsRef.current[index].classList.add("background");
     }
+    console.log(index);
   };
-
   return (
-    <div
-      style={{ display: "flex", flexDirection: "column", alignItems: "center" }}
-    >
-      <h1>React Tinder Card</h1>
-      <div className="cardContainer">
-        {characters.map((character, index) => (
-          <TinderCard
-            ref={childRefs[index]}
-            className="swipe"
-            key={character.name}
-            onSwipe={(dir) => swiped(dir, character.name)}
-            onCardLeftScreen={() => outOfFrame(character.name)}
-          >
+    <div className="container-slider">
+      <div className="box-slider" ref={boxSliderRef}>
+        <div className="container-dot">
+          {db.map((item, i) => (
             <div
-              style={{ backgroundImage: `url(${character.url})` }}
-              className="card"
-            >
-              <h3>{character.name}</h3>
+              ref={(el) => (dotsRef.current[i] = el)}
+              key={i}
+              className={i === index ? "btn-dot background" : "btn-dot"}
+              style={{
+                flexBasis: `calc(${100 / lengthData}%)`,
+              }}
+              onClick={(e) => {
+                index = i;
+                slidesRef.current.style.transform = `translateX(-${
+                  widthBoxSlider * index
+                }px)`;
+                test(index);
+              }}
+            ></div>
+          ))}
+        </div>
+        <div
+          className="slides"
+          ref={slidesRef}
+          style={{
+            width: `calc(${widthBoxSlider * lengthData}px)`,
+          }}
+        >
+          {db.map((item, index) => (
+            <div className="slide" key={index}>
+              <img src={item.url} alt="a" draggable={false} />
             </div>
-          </TinderCard>
-        ))}
+          ))}
+        </div>
+        <div
+          className="btn prev"
+          onClick={(e) => {
+            if (index === 0) {
+              return;
+            }
+            index--;
+            slidesRef.current.style.transform = `translateX(-${
+              widthBoxSlider * index
+            }px)`;
+            test(index);
+          }}
+        >
+          {" "}
+          prev
+        </div>
+
+        <div
+          className="btn next"
+          onClick={(e) => {
+            if (index < lengthData) {
+              index++;
+            } else {
+              index = 0;
+            }
+            slidesRef.current.style.transform = `translateX(-${
+              widthBoxSlider * index
+            }px)`;
+            test(index);
+            document.querySelector(".slides").classList.add("hello");
+          }}
+        >
+          next
+        </div>
       </div>
-      <div className="buttons">
-        <button onClick={() => swipe("left")}>Swipe left!</button>
-        <button onClick={() => swipe("right")}>Swipe right!</button>
-      </div>
-      {lastDirection ? (
-        <h2 key={lastDirection} className="infoText">
-          You swiped {lastDirection}
-        </h2>
-      ) : (
-        <h2 className="infoText">
-          Swipe a card or press a button to get started!
-        </h2>
-      )}
     </div>
   );
 }

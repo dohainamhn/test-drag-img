@@ -5,8 +5,6 @@ import CandidateList from "../features/CandidateList";
 import Layout from "../HOC/Layout";
 import axiosClient from "../apis/axiosClient";
 import { useDispatch, useSelector } from "react-redux";
-import action from "../actions";
-import constantAction from "../constansts";
 
 Main.propTypes = {};
 
@@ -22,6 +20,7 @@ function Main(props) {
       navigator.geolocation.getCurrentPosition(showPosition);
     }
   }
+  console.log(props);
   useEffect(() => {
     getLocation();
   }, []);
@@ -41,12 +40,8 @@ function Main(props) {
       }).then((res) => console.log(res, "location"));
     }
   }
-
   return (
     <div>
-      {/* <NavbarDesktop />
-      <NavMenu />
-      <CandidateList /> */}
       <Layout left={[NavbarDesktop, NavMenu]} right={[CandidateList]} />
     </div>
   );

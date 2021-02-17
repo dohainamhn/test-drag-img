@@ -19,7 +19,7 @@ function App() {
                   component={route.component}
                 />
               );
-            return <PrivateRoute {...route} key={index} />;
+            return <PrivateRoute h="hello" {...route} key={index} />;
           })}
         </Switch>
       </Suspense>
