@@ -14,7 +14,8 @@ const addLocation = (data) => {
 };
 
 function Main(props) {
-  const data = useSelector((state) => state.user.currentUser);
+  const auth = useSelector((state) => state.auth);
+  console.log(auth)
   function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
@@ -32,9 +33,9 @@ function Main(props) {
         position.coords.longitude
     );
 
-    if (data) {
+    if (auth) {
       addLocation({
-        userId: data._id,
+        userId: auth.user._id,
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       }).then((res) => console.log(res, "location"));
