@@ -4,7 +4,7 @@ import NavMenu from "../features/NavMenu";
 import CandidateList from "../features/CandidateList";
 import Layout from "../HOC/Layout";
 import axiosClient from "../apis/axiosClient";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 Main.propTypes = {};
 
@@ -15,23 +15,21 @@ const addLocation = (data) => {
 
 function Main(props) {
   const auth = useSelector((state) => state.auth);
-  console.log(auth)
   function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(showPosition);
     }
   }
-  console.log(props);
   useEffect(() => {
     getLocation();
   }, []);
   function showPosition(position) {
-    console.log(
-      "Latitude: " +
-        position.coords.latitude +
-        "<br>Longitude: " +
-        position.coords.longitude
-    );
+    // console.log(
+    //   "Latitude: " +
+    //     position.coords.latitude +
+    //     "<br>Longitude: " +
+    //     position.coords.longitude
+    // );
 
     if (auth) {
       addLocation({
