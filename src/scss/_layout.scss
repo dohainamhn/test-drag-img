@@ -3,6 +3,8 @@
     height: 100vh;
     display: flex;
     .col.left {
+        overflow: hidden;
+        min-width: 32.5rem;
         flex-basis: 25%;
         background-color: #FFFFFF;
         border-right: 1px solid #dddddd;

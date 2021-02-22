@@ -1,0 +1,216 @@
+.nav-menu {
+    position: relative;
+    .box-btn {
+        display: flex;
+        padding: 1rem 2rem;
+        position: relative;
+        .btn {
+            font-weight: 900;
+            padding: 0 .8rem;
+            color: #333333;
+            cursor: pointer;
+        }
+        &__matches {
+            margin-right: 1rem;
+        }
+
+        &__under {
+            position: absolute;
+            height: 3.4px;
+            width: 7.9rem;
+            transition: all .3s;
+            left: 2rem;
+            background: linear-gradient(
+            262deg
+            ,#ff7854,#fd267d);
+
+            bottom: .7rem;
+            font-weight: bold;
+        }
+
+    }
+
+
+    .list-match {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 1rem;
+        width: 100%;
+        position: absolute;
+
+        .users-hide {
+            padding: .8rem;
+            cursor: pointer;
+            color: #FFFFFF;
+            font-weight: 900;
+
+            flex-basis: 33.33%;
+            .border {
+                position: relative;
+
+                transition: all .3s;
+                width: 100%;
+                height: 100%;
+                padding: .2rem;
+                background: #FFFFFF;
+                border: 4px solid #e9aa43;
+                border-radius: .5rem;
+                &:hover {
+                    transform: scale(1.1);
+                }
+                .users-hide__img {
+
+                    background-image: url("https://images-ssl.gotinder.com/d115b478-9741-486b-a72d-dd701a5e0a09/84x106_4e8ed2be-a1b3-44c8-a887-4e5bc4fcbb6e.jpg")
+                    ;
+
+                    border-radius: .5rem;
+                    width: 100%;
+                    height: 100%;
+                    background-size: 200%;
+                    background-position: 50% 50% ;
+                    background-repeat: no-repeat;
+
+                    // overflow:hidden ;
+                    transition: all .3s;
+
+                }
+            }
+            .number-center {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 50%;
+                width: 4rem;
+                height: 4rem;
+
+                border-radius: 50%;
+                text-align: center;
+                line-height: 4rem;
+
+
+                transform: translate(-50%,-50%);
+                background: linear-gradient(
+                    135deg
+                    ,#e09220,#e9aa43 42%,#f4d37c);
+            }
+
+            .text {
+                position: absolute;
+                bottom: 1rem;
+                left: .5rem;
+                font-size: 1.4rem;
+            }
+
+            .icon-heart {
+                position: absolute;
+                bottom: -1.3rem;
+                left: 50%;
+                transform: translateX(-50%) ;
+                color: #e9aa43;
+
+                i::before {
+                    transform: rotate(30deg);
+                }
+            }
+
+        }
+        .user-match {
+            position: relative;
+            padding: .8rem;
+            cursor: pointer;
+            flex-basis: 33.33%;
+                transition: all .3s;
+
+            &:hover {
+                transform: scale(1.1);
+            }
+            &__img {
+                border-radius: .5rem;
+                width: 100%;
+                height: 12.5rem;
+                background-size: 200%;
+                background-position: 50% 50% ;
+                background-repeat: no-repeat;
+
+            }
+            &__name {
+                position: absolute;
+                width: 70%;
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                color: #FFFFFF;
+                left: 2rem;
+                font-size: 1.3rem;
+                bottom: 2rem;
+                font-weight: 900;
+            }
+        }
+
+
+    }
+
+    .emty-message {
+       .box-icon {
+           height: 100vh;
+           position: relative;
+
+        .small-icon {
+            width: 7.9rem;
+            height: 7.2rem;
+            transform: translate(0,-3px)  ;
+            animation: grow 1s ;
+            path {
+                transform: translate(-9.8rem, -7.2rem)
+
+            }
+        }
+
+        .big-icon {
+            width: 16.5rem;
+            height: 15.5rem;
+            position: absolute;
+            transform: translate(-9.5rem,-7.2rem);
+
+        }
+
+        .icon {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            // transform: translate(-40%,-50%);
+        }
+
+        .text {
+            position: absolute;
+
+            top: 40%;
+            text-align: center;
+            padding: 2rem;
+            h3 {
+                margin: .8rem 0;
+                font-weight: 900;
+                font-size: 2.5rem;
+            }
+            p {
+                padding: 0 5rem;
+                color: #5c5c5c;
+            }
+        }
+
+
+       }
+    }
+}
+
+
+
+@keyframes grow {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.1);
+
+    }
+}

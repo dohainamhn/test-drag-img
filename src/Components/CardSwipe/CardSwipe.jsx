@@ -2,32 +2,8 @@ import React, { useState, useRef, useEffect } from "react";
 // import TinderCard from '../react-tinder-card/index'
 import "./card-swipe.scss";
 
-const db = [
-  {
-    name: "Richard Hendricks",
-    url: "https://picsum.photos/seed/picsum/500/600",
-  },
-  {
-    name: "Erlich Bachman",
-    url: "https://picsum.photos/seed/picsum/500/600",
-  },
-  {
-    name: "Monica Hall",
-    url: "https://picsum.photos/seed/picsum/500/600",
-  },
-  {
-    name: "Jared Dunn",
-    url: "https://picsum.photos/seed/picsum/500/600",
-  },
-  {
-    name: "Dinesh Chugtai",
-    url: "https://picsum.photos/seed/picsum/500/600",
-  },
-];
-
-let lengthData = db.length - 1;
-
-function CardSwipe() {
+function CardSwipe({ db }) {
+  let lengthData = db.length - 1;
   const boxSliderRef = useRef(null);
   const slidesRef = useRef(null);
   const [widthBoxSlider, setWidthBoxSlider] = useState("");
@@ -47,7 +23,6 @@ function CardSwipe() {
     if (dotsRef.current[index]) {
       dotsRef.current[index].classList.add("background");
     }
-    console.log(index);
   };
   return (
     <div className="container-slider">
@@ -86,6 +61,12 @@ function CardSwipe() {
         </div>
         <div
           className="btn prev"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          onMouseUp={(e) => {
+            e.stopPropagation();
+          }}
           onClick={(e) => {
             if (index === 0) {
               return;
@@ -98,11 +79,17 @@ function CardSwipe() {
           }}
         >
           {" "}
-          prev
+          <i className="bi bi-chevron-left"></i>
         </div>
 
         <div
           className="btn next"
+          onMouseDown={(e) => {
+            e.stopPropagation();
+          }}
+          onMouseUp={(e) => {
+            e.stopPropagation();
+          }}
           onClick={(e) => {
             if (index < lengthData) {
               index++;
@@ -113,10 +100,9 @@ function CardSwipe() {
               widthBoxSlider * index
             }px)`;
             test(index);
-            document.querySelector(".slides").classList.add("hello");
           }}
         >
-          next
+          <i className="bi bi-chevron-right"></i>
         </div>
       </div>
     </div>

@@ -1,0 +1,52 @@
+
+
+
+.box-icon{
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    .bi-heart-fill {
+        font-size: 3.5rem;
+        transform: translate(-50%,-55%);
+        color: #35E8B7;
+
+    }
+
+    .bi-arrow-counterclockwise {
+        font-size: 4rem;
+        transform: translate(-50%,-57%);
+        color: #cacaca;
+
+    }
+    .bi-x {
+        font-size: 6rem;
+        color: rgb(237,66,100);;
+        transform: translate(-50%,-60%);
+    }
+
+    .bi-star-fill {
+        color: #26B7FF;
+        font-size: 3rem;
+        transform: translate(-50%,-59%);
+
+    }
+    .bi-lightning-fill {
+        color: #9F4FDC;
+        font-size: 3rem;
+        transform: translate(-50%,-59%);
+    }
+
+    i {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+
+
+        &::before {
+
+            font-weight: 1000 !important;
+        }
+
+    }
+}

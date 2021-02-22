@@ -31,13 +31,16 @@ function NavbarDesktop(props) {
             className="btn btn-back"
             onClick={handlerBack}
           >
-            Back
+            <i className="bi bi-chevron-left d-flex-c"></i>
           </div>
         </div>
 
         <div
-          className="col"
-          style={{ marginLeft: showBack && "6rem", transition: "all .5s" }}
+          className="col box"
+          style={{
+            transform: showBack && "translateX(50%)",
+            animation: showBack ? "fade-in .3s" : "fade-out .3s",
+          }}
         >
           <div
             className=" d-flex btn nav-desktop__img"
@@ -45,8 +48,6 @@ function NavbarDesktop(props) {
           >
             <img src="https://bitly.com.vn/3vhqjv" alt="avatar" />
           </div>
-        </div>
-        <div className="col">
           <div className="btn redirect-proflie" onClick={handlerRidrect}>
             My Profile
           </div>

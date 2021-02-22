@@ -1,10 +1,10 @@
 
 
 .container-slider {
-
+   cursor: pointer;
     margin-top: 2rem;
-    width: 37rem;
-    height: 55rem;
+
+
 
     .box-slider {
       border-radius: 1rem;
@@ -12,8 +12,11 @@
       transition:  all .5s;
       position: relative;
       width: 37rem;
-      height: 55rem;
+      height: 52rem;
       overflow: hidden;
+      &:hover > .btn {
+        display: block;
+      }
     }
     .slides {
       display: flex;
@@ -27,7 +30,7 @@
 
       img {
         width: 37rem;
-        height: 55rem;
+        height: 52rem;
         object-fit: cover;
       }
     }
@@ -46,7 +49,8 @@
         border-radius: 2rem;
         padding: .2rem;
         // margin: 0 .5rem;
-        background: white;
+        background: black;
+        opacity: .3;
         transition: all .3s;
       }
       .btn-dot + .btn-dot {
@@ -54,7 +58,8 @@
       }
 
       .btn-dot.background {
-        background-color: black;
+        background-color: #FFFFFF;
+        opacity: 1;
       }
     }
 
@@ -63,14 +68,20 @@
       top: 50%;
       transform: translateY(-50%);
       padding: 1rem;
-      background: white;
+      font-size: 2.5rem;
+
+      transition: all .3s;
+      color: #FFFFFF;
       cursor: pointer;
+      // display: none;
+
     }
-    .btn:active {
-      background: yellow;
-    }
+
+
     .next {
       right: 0;
     }
 
 }
+
+

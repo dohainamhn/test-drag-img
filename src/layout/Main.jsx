@@ -10,7 +10,7 @@ Main.propTypes = {};
 
 const addLocation = (data) => {
   const url = "/location";
-  return axiosClient.put(url, data);
+  return axiosClient.post(url, data);
 };
 
 function Main(props) {
