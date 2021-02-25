@@ -6,11 +6,13 @@ import Layout from "../HOC/Layout";
 import axiosClient from "../apis/axiosClient";
 import { useSelector } from "react-redux";
 
-Main.propTypes = {};
-
-const addLocation = (data) => {
+const createLocation = (data) => {
   const url = "/location";
   return axiosClient.post(url, data);
+};
+const addLocation = (data) => {
+  const url = "/location";
+  return axiosClient.put(url, data);
 };
 
 function Main(props) {
@@ -31,17 +33,26 @@ function Main(props) {
     //     position.coords.longitude
     // );
 
-    if (auth) {
+    if (!auth) return;
+
+    if (auth.user.status === 1) {
+      console.log("1");
       addLocation({
         userId: auth.user._id,
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
       }).then((res) => console.log(res, "location"));
+    } else {
+      createLocation({
+        userId: auth.user._id,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      }).then((res) => console.log(res, "location add"));
     }
   }
   return (
     <div>
-      <Layout left={[NavbarDesktop, NavMenu]} right={[CandidateList]} />
+      <Layout left={[NavMenu]} right={[CandidateList]} />
     </div>
   );
 }

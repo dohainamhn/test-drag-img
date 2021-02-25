@@ -1,7 +1,4 @@
 import React from "react";
-import PropTypes from "prop-types";
-
-EmtyMessage.propTypes = {};
 
 function EmtyMessage(props) {
   return (

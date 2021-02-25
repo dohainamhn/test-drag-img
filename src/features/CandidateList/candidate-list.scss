@@ -1,12 +1,34 @@
 .candidate-list {
-    position: relative;
     width: 100%;
     height: 100%;
-    .box-card {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
+
+    display: flex;
+    justify-content: center;
+
+    .box-candidate {
+        // position: relative;
+
     }
+
+
+    .container-card {
+        margin-top: 2rem ;
+        position: relative;
+        width: 37rem;
+        height: 53rem;
+    }
+
+
+
+    .card {
+        position: absolute;
+        transform: translate3d(0,0,0);
+    }
+
+
+
+
+
     .list-btn {
         display: flex;
         justify-content: space-between;

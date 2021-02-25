@@ -7,9 +7,7 @@ import CandidateList from "../features/CandidateList";
 function Profile(props) {
   return (
     <div>
-      {/* <NavbarDesktop />
-      <Setting /> */}
-      <Layout left={[NavbarDesktop, Setting]} right={[CandidateList]} />
+      <Layout left={[Setting]} right={[CandidateList]} />
     </div>
   );
 }

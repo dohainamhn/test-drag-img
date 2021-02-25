@@ -1,13 +1,12 @@
 import React from "react";
-// import PropTypes from "prop-types";
-
-// Layout.propTypes = {};
+import NavbarDesktop from "../Components/NavbarDesktop";
 
 const Layout = ({ left, right, ...rest }) => {
   return (
     <>
       <div className="row layout">
         <div className="col left">
+          <NavbarDesktop />
           {left.map((ComponentLeft, index) => (
             <React.Fragment key={index}>
               <ComponentLeft />

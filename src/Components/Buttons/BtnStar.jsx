@@ -3,8 +3,8 @@ import "./btn.scss";
 
 function BtnStar(props) {
   return (
-    <div class="box-icon">
-      <i class="bi bi-star-fill"></i>
+    <div className="box-icon">
+      <i className="bi bi-star-fill"></i>
     </div>
   );
 }

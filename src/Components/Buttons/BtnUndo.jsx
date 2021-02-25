@@ -4,8 +4,8 @@ import "./btn.scss";
 
 function BtnUndo(props) {
   return (
-    <div class="btn-undo box-icon">
-      <i class="bi bi-arrow-counterclockwise"></i>
+    <div className="btn-undo box-icon">
+      <i className="bi bi-arrow-counterclockwise"></i>
     </div>
   );
 }

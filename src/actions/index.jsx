@@ -1,7 +1,7 @@
 const action = (type, data) => {
   return {
     type: type,
-    payload: data,
+    payload: data || null,
   };
 };
 

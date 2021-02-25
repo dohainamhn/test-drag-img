@@ -159,7 +159,6 @@
             width: 7.9rem;
             height: 7.2rem;
             transform: translate(0,-3px)  ;
-            animation: grow 1s ;
             path {
                 transform: translate(-9.8rem, -7.2rem)
 
@@ -178,7 +177,6 @@
             position: absolute;
             top: 30%;
             left: 50%;
-            // transform: translate(-40%,-50%);
         }
 
         .text {
@@ -205,12 +203,3 @@
 
 
 
-@keyframes grow {
-    from {
-        transform: scale(1);
-    }
-    to {
-        transform: scale(1.1);
-
-    }
-}

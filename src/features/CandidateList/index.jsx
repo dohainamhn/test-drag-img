@@ -1,225 +1,129 @@
 import React, { useEffect, useRef, useState } from "react";
-import BtnHeart from "../../Components/Buttons/BtnHeart";
-import BtnLightning from "../../Components/Buttons/BtnLightning";
-import BtnNope from "../../Components/Buttons/BtnNope";
-import BtnStar from "../../Components/Buttons/BtnStar";
-import BtnUndo from "../../Components/Buttons/BtnUndo";
+import { useDispatch, useSelector } from "react-redux";
+import action from "../../actions";
+// import action from "../../actions";
+// import BtnHeart from "../../Components/Buttons/BtnHeart";
+// import BtnLightning from "../../Components/Buttons/BtnLightning";
+// import BtnNope from "../../Components/Buttons/BtnNope";
+// import BtnStar from "../../Components/Buttons/BtnStar";
+// import BtnUndo from "../../Components/Buttons/BtnUndo";
 import CardSwipe from "../../Components/CardSwipe/CardSwipe";
 
 import "./candidate-list.scss";
 
-const db = [
-  {
-    data: [
-      {
-        id: "117",
-        name: "Daniel Ebersole",
-        url: "https://picsum.photos/id/117/1544/1024",
-      },
-      {
-        id: "118",
-        name: "Rick Waalders",
-        url: "https://picsum.photos/id/118/1500/1000",
-      },
-      {
-        id: "119",
-        name: "Nadir Balcikli",
-        url: "https://picsum.photos/id/119/3264/2176",
-      },
-      {
-        id: "12",
-        name: "Paul Jarvis",
-        url: "https://picsum.photos/id/12/2500/1667",
-      },
-      {
-        id: "120",
-        name: "Guillaume",
-        url: "https://picsum.photos/id/120/4928/3264",
-      },
-
-      {
-        id: "123",
-        name: "Mark Doda",
-        url: "https://picsum.photos/id/123/4928/3264",
-      },
-      {
-        id: "124",
-        name: "Anton Sulsky",
-        url: "https://picsum.photos/id/124/3504/2336",
-      },
-      {
-        id: "125",
-        name: "Rick Waalders",
-        url: "https://picsum.photos/id/125/1500/1000",
-      },
-    ],
-  },
-  {
-    data: [
-      {
-        id: "117",
-        name: "Daniel Ebersole",
-        url: "https://picsum.photos/id/127/1544/1024",
-      },
-      {
-        id: "118",
-        name: "Rick Waalders",
-        url: "https://picsum.photos/id/128/1500/1000",
-      },
-      {
-        id: "119",
-        name: "Nadir Balcikli",
-        url: "https://picsum.photos/id/129/3264/2176",
-      },
-      {
-        id: "12",
-        name: "Paul Jarvis",
-        url: "https://picsum.photos/id/134/2500/1667",
-      },
-      {
-        id: "120",
-        name: "Guillaume",
-        url: "https://picsum.photos/id/110/4928/3264",
-      },
-
-      {
-        id: "123",
-        name: "Mark Doda",
-        url: "https://picsum.photos/id/126/4928/3264",
-      },
-      {
-        id: "124",
-        name: "Anton Sulsky",
-        url: "https://picsum.photos/id/134/3504/2336",
-      },
-      {
-        id: "125",
-        name: "Rick Waalders",
-        url: "https://picsum.photos/id/154/1500/1000",
-      },
-    ],
-  },
-];
 function CandidateList(props) {
-  const boxCardRef = useRef([]);
+  const candidate = useSelector((state) => state.candidate);
+  const containerCardRef = useRef(null);
   const candidateRef = useRef(null);
-
-  let start = "";
-  let istrue = false;
+  let istrueRef = useRef(false);
+  const dispatch = useDispatch();
   let offsetX = "";
   let offsetY = "";
-  let offsetLeft = "";
-  let candidateWidth = "";
-  const [positionCard, setPositionCard] = useState(null);
+
   useEffect(() => {
-    let position = boxCardRef.current[0].getBoundingClientRect();
-    setPositionCard(position);
+    const getBounding = containerCardRef.current.getBoundingClientRect();
+    const getBoundingCandidate = candidateRef.current.getBoundingClientRect();
+    console.log(getBounding);
+    setPosition((p) => ({
+      ...p,
+      clientHeight: getBounding.height,
+      clientWidth: getBounding.width,
+      x2: getBounding.x,
+      y2: getBounding.y,
+      widthCandidate: getBoundingCandidate.width,
+      heightCandidate: getBoundingCandidate.height,
+    }));
   }, []);
+  const [position, setPosition] = useState({
+    x: 0,
+    y: 0,
+    z: 0,
+    offsetX: 0,
+    offsetY: 0,
+    clientWidth: 0,
+    clientHeight: 0,
+    x2: 0,
+    y2: 0,
+    transition: "unset",
+    widthCandidate: 0,
+    heightCandidate: 0,
+    rotate: 0,
+  });
 
-  const handleMouseDown = (e) => {
-    start = e.clientX - candidateRef.current.offsetLeft;
-    istrue = true;
-    offsetLeft = candidateRef.current.offsetLeft;
-
-    offsetY = (e.nativeEvent.offsetY / positionCard.height) * 100;
-    offsetX = (e.nativeEvent.offsetX / positionCard.width) * 100;
-
-    candidateWidth = candidateRef.current.clientWidth;
+  const handleDown = (e) => {
+    istrueRef.current = true;
+    offsetY = e.nativeEvent.offsetY;
+    offsetX = e.nativeEvent.offsetX;
+    setPosition({
+      ...position,
+      offsetX,
+      offsetY,
+    });
   };
-  window.onclick = (e) => {
-    console.log(e.clientX, "window");
-  };
 
-  const handleMouseUp = (e, index) => {
-    istrue = false;
+  let timeoutRef = useRef(null);
 
-    if (e.clientX - offsetLeft + 150 < start) {
-      nope();
+  const handleUp = (e) => {
+    istrueRef.current = false;
+    clearTimeout(timeoutRef.current);
+
+    if (position.x + 150 < 0) {
+      setPosition({
+        ...position,
+        x: -1000,
+        y: 0,
+        transition: "transform .5s",
+      });
+      dispatch(action("REMOVE_FIRST"));
+
       return;
     }
-
-    if (e.clientX - offsetLeft > start + 150) {
-      like();
-
-      return;
-    }
-    boxCardRef.current[0].style.transform = "none";
-    boxCardRef.current[0].style.left = positionCard.x - offsetLeft + "px";
-    boxCardRef.current[0].style.top = positionCard.y + "px";
-  };
-
-  const nope = (e) => {
-    boxCardRef.current[0].style.transition = "all 1s";
-    boxCardRef.current[0].style.transform = `translateX(${
-      -candidateWidth || -candidateRef.current.clientWidth
-    }px) rotate(30deg) `;
-  };
-
-  const like = (e) => {
-    boxCardRef.current[0].style.transition = "all 1s";
-    boxCardRef.current[0].style.transform = `translateX(${
-      candidateWidth || candidateRef.current.clientWidth
-    }px) rotate(-30deg) `;
+    setPosition({
+      ...position,
+      x: 0,
+      y: 0,
+      rotate: 0,
+      transition: "transform .5s",
+    });
   };
 
   window.onmousemove = (e) => {
-    e.preventDefault();
-
-    if (istrue) {
-      boxCardRef.current[0].style.transition = "unset";
-      boxCardRef.current[0].style.left = `${e.clientX - offsetLeft}px`;
-      boxCardRef.current[0].style.top = `${e.clientY}px`;
-      boxCardRef.current[0].style.transform = `translate(${-offsetX + "%"}, ${
-        -offsetY + "%"
-      })`;
+    if (istrueRef.current) {
+      setPosition({
+        ...position,
+        x: e.clientX - position.x2 - position.offsetX,
+        y: e.clientY - position.y2 - position.offsetY,
+        rotate: position.x / 20,
+        transition: "unset",
+      });
     }
   };
 
   return (
     <div className="candidate-list" ref={candidateRef}>
-      {db.map((item, index) => (
-        <div
-          className="box-card"
-          key={index + "adad"}
-          style={{
-            zIndex: db.length - index,
-          }}
-          ref={(el) => (boxCardRef.current[index] = el)}
-          onMouseDown={handleMouseDown}
-          onMouseUp={(e) => {
-            handleMouseUp(e, index);
-          }}
-        >
-          <CardSwipe db={item.data} />
-        </div>
-      ))}
-
-      <div className="list-btn">
-        <div className="btn undo">
-          <BtnUndo />
-        </div>
-        <div
-          className="nope btn"
-          onClick={(e) => {
-            nope();
-          }}
-        >
-          <BtnNope nope={nope} />
-        </div>
-
-        <div className="btn star">
-          <BtnStar />
-        </div>
-        <div
-          className="heart btn"
-          onClick={(e) => {
-            like();
-          }}
-        >
-          <BtnHeart />
-        </div>
-        <div className="lightning btn">
-          <BtnLightning />
+      <div className="box-candidate">
+        <div className="container-card" ref={containerCardRef}>
+          {candidate.map((item, i) => {
+            return (
+              <div
+                className="card"
+                key={i + "s"}
+                onMouseDown={handleDown}
+                onMouseUp={handleUp}
+                style={{
+                  transform:
+                    i === 0
+                      ? `translate3d(${position.x}px,${position.y}px, 0) rotate(${position.rotate}deg) `
+                      : `translate3d(0,0, 0) rotate(0deg) `,
+                  zIndex: 10 - i,
+                  transition: position.transition,
+                  transformOrigin: "center center",
+                }}
+              >
+                <CardSwipe db={item.data} />
+              </div>
+            );
+          })}
         </div>
       </div>
     </div>
